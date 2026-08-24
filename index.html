@@ -12,7 +12,6 @@
 
     <style>
         :root {
-            /* تم رنگی پیشنهادی: سبز تیره سلطنتی با طیف طلایی و زیتونی */
             --brand-green: #a98e57;
             --brand-dark-green: #0a1f18;
             --brand-green-glow: rgba(169, 142, 87, 0.4);
@@ -57,33 +56,71 @@
             margin-top: 4px;
         }
 
-        .lucky-btn {
+        /* نوار ابزار قابلیت‌های جدید */
+        .features-bar {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .lucky-btn, .assistant-btn {
             background: linear-gradient(135deg, var(--brand-green), #8a7243);
             color: var(--bg-deep);
             border: none;
-            padding: 10px 22px;
+            padding: 9px 18px;
             border-radius: 50px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 0 20px var(--brand-green-glow);
+            box-shadow: 0 0 15px var(--brand-green-glow);
             transition: all 0.3s ease;
-            margin: 10px 0 25px 0;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
-        .lucky-btn:hover {
+        .lucky-btn:hover, .assistant-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 25px var(--brand-green);
+            box-shadow: 0 0 20px var(--brand-green);
+        }
+
+        /* فیلترهای رژیمی */
+        .diet-filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            max-width: 100%;
+            padding-bottom: 5px;
+        }
+
+        .diet-chip {
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            color: var(--text-sub);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .diet-chip.active, .diet-chip:hover {
+            background: var(--brand-green);
+            color: var(--bg-deep);
+            border-color: var(--brand-green);
+            font-weight: 700;
         }
 
         .orbit-wrapper {
             position: relative;
             width: 360px;
             height: 360px;
-            margin: 10px auto 25px auto;
+            margin: 5px auto 20px auto;
             touch-action: none;
             display: flex;
             align-items: center;
@@ -91,9 +128,7 @@
             cursor: grab;
         }
 
-        .orbit-wrapper:active {
-            cursor: grabbing;
-        }
+        .orbit-wrapper:active { cursor: grabbing; }
 
         .orbit-ring {
             position: absolute;
@@ -105,7 +140,6 @@
             pointer-events: none;
         }
 
-        /* المان زیبا و متنی به جای لوگو در مرکز */
         .center-logo {
             position: absolute;
             top: 50%;
@@ -127,26 +161,9 @@
             pointer-events: none;
         }
 
-        .center-logo i {
-            color: var(--accent-gold);
-            font-size: 16px;
-            margin-bottom: 4px;
-        }
-
-        .center-logo .logo-name-ar {
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-main);
-            line-height: 1.2;
-        }
-
-        .center-logo .logo-name-en {
-            font-family: 'Cinzel', serif;
-            font-size: 9px;
-            color: var(--accent-gold);
-            letter-spacing: 1px;
-            margin-top: 2px;
-        }
+        .center-logo i { color: var(--accent-gold); font-size: 16px; margin-bottom: 4px; }
+        .center-logo .logo-name-ar { font-size: 11px; font-weight: 700; color: var(--text-main); line-height: 1.2; }
+        .center-logo .logo-name-en { font-family: 'Cinzel', serif; font-size: 9px; color: var(--accent-gold); letter-spacing: 1px; margin-top: 2px; }
 
         .orbit-item {
             position: absolute;
@@ -182,20 +199,10 @@
             color: var(--text-main) !important;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5) !important;
         }
-        .orbit-ring.spinning .orbit-item i {
-            color: var(--brand-green) !important;
-        }
+        .orbit-ring.spinning .orbit-item i { color: var(--brand-green) !important; }
 
-        .orbit-item i {
-            font-size: 16px;
-            color: var(--brand-green);
-            transition: color 0.3s;
-        }
-
-        .orbit-item:hover i, .orbit-item.active i {
-            color: var(--bg-deep);
-        }
-
+        .orbit-item i { font-size: 16px; color: var(--brand-green); transition: color 0.3s; }
+        .orbit-item:hover i, .orbit-item.active i { color: var(--bg-deep); }
         .orbit-item span {
             font-size: 8px;
             font-weight: 700;
@@ -241,16 +248,8 @@
             font-size: 16px;
         }
 
-        .panel-title h3 {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .panel-title span {
-            font-family: 'Cinzel', serif;
-            font-size: 10px;
-            color: var(--accent-gold);
-        }
+        .panel-title h3 { font-size: 16px; font-weight: 700; }
+        .panel-title span { font-family: 'Cinzel', serif; font-size: 10px; color: var(--accent-gold); }
 
         .dish-row {
             display: flex;
@@ -261,25 +260,62 @@
             transition: background 0.2s;
         }
 
-        .dish-row:hover {
-            background: rgba(169, 142, 87, 0.05);
-            border-radius: 10px;
+        .dish-row:hover { background: rgba(169, 142, 87, 0.05); border-radius: 10px; }
+        .dish-row:last-child { border-bottom: none; }
+
+        .dish-info h4 { font-size: 13px; font-weight: 600; }
+        .dish-info p { font-size: 10px; color: var(--text-sub); margin-top: 2px; }
+
+        /* استایل مقیاس کافئین */
+        .caffeine-meter {
+            display: flex;
+            gap: 3px;
+            align-items: center;
+        }
+        .caffeine-meter i {
+            font-size: 9px;
+            color: var(--brand-green);
+        }
+        .caffeine-meter i.inactive {
+            color: rgba(255,255,255,0.15);
         }
 
-        .dish-row:last-child {
-            border-bottom: none;
+        /* مدال دستیار انتخاب هوشمند */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+            backdrop-filter: blur(5px);
         }
-
-        .dish-info h4 {
-            font-size: 13px;
-            font-weight: 600;
+        .modal-content {
+            background: var(--card-bg);
+            border: 1px solid var(--brand-green);
+            border-radius: var(--radius-xl);
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 30px var(--brand-green-glow);
         }
-
-        .dish-info p {
-            font-size: 10px;
-            color: var(--text-sub);
-            margin-top: 2px;
+        .modal-content h3 { color: var(--accent-gold); margin-bottom: 15px; font-size: 16px; }
+        .modal-options { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        .modal-opt-btn {
+            background: rgba(169, 142, 87, 0.1);
+            border: 1px solid var(--border-glow);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
         }
+        .modal-opt-btn:hover { background: var(--brand-green); color: var(--bg-deep); }
+        .close-modal { margin-top: 15px; background: none; border: none; color: var(--text-sub); cursor: pointer; font-size: 11px; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -294,13 +330,26 @@
         <p>انقر على الخيارات أو اسحب الدائرة بيدك لعرض القائمة</p>
     </header>
 
-    <button class="lucky-btn" onclick="spinLuckyMenu()">
-        <i class="fa-solid fa-dice"></i> إذا كنت محتاراً، اختر عشوائياً!
-    </button>
+    <!-- نوار دکمه‌های تعاملی جدید -->
+    <div class="features-bar">
+        <button class="lucky-btn" onclick="spinLuckyMenu()">
+            <i class="fa-solid fa-dice"></i> عجلة الحظ
+        </button>
+        <button class="assistant-btn" onclick="openAssistant()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> مساعد الذوق الذكي
+        </button>
+    </div>
+
+    <!-- فیلترهای رژیمی جدید -->
+    <div class="diet-filters">
+        <div class="diet-chip active" onclick="filterDiet('all', this)">الكل</div>
+        <div class="diet-chip" onclick="filterDiet('keto', this)">كيتو وصحي</div>
+        <div class="diet-chip" onclick="filterDiet('caffeine', this)">عالي الكافيين</div>
+        <div class="diet-chip" onclick="filterDiet('sweet', this)">(حلويات) حلو</div>
+    </div>
 
     <div class="orbit-wrapper" id="orbitWrapper">
         <div class="orbit-ring" id="orbitRing"></div>
-        <!-- المان مرکز به جای لوگو -->
         <div class="center-logo">
             <i class="fa-solid fa-mug-hot"></i>
             <span class="logo-name-ar">مختبر الكافيين</span>
@@ -319,108 +368,122 @@
         <div id="panelItems"></div>
     </div>
 
+    <!-- پنجره پاپ‌آپ دستیار هوشمند -->
+    <div class="modal-overlay" id="assistantModal">
+        <div class="modal-content">
+            <h3>ما الذي تبتغيه اليوم في مختبر الكافيين؟</h3>
+            <p style="font-size: 11px; color: var(--text-sub);">دعنا نساعدك في اختيار المشروب أو الصنف المناسب لمزاجك:</p>
+            <div class="modal-options">
+                <button class="modal-opt-btn" onclick="recommendByMood('energy')">⚡ أقوى دفعة طاقة وكافيين</button>
+                <button class="modal-opt-btn" onclick="recommendByMood('sweet')">🍰 شيء حلو ولذيذ يروق المزاج</button>
+                <button class="modal-opt-btn" onclick="recommendByMood('refresh')">🧊 منعش وبارد لحر الصيف</button>
+            </div>
+            <button class="close-modal" onclick="closeAssistant()">إغلاق النافذة</button>
+        </div>
+    </div>
+
     <script>
         const MENU_DATA = [
             {
                 id: 'cold-drinks', titleAr: 'المشروبات الباردة', titleEn: 'COLD DRINKS', icon: 'fa-glass-water',
                 items: [
-                    { ar: 'إيس آتي', en: 'Ice Tea' },
-                    { ar: 'غرين إينرجي', en: 'Green Energy' },
-                    { ar: 'سبيرايت إينرجي', en: 'Spirit Energy' },
-                    { ar: 'كوسميك درينك', en: 'Cosmic Drink' },
-                    { ar: 'غراند بيروي', en: 'Grand Berry' },
-                    { ar: 'بلو أوشن', en: 'Blue Ocean' },
-                    { ar: 'فورتيكس درينك', en: 'Vortex Drink' },
-                    { ar: 'الليتشي صودا', en: 'Lychee Soda' },
-                    { ar: 'ريد مورنينغ', en: 'Red Morning' },
-                    { ar: 'موهيتو', en: 'Mojito' },
-                    { ar: 'بلو ماونتن', en: 'Blue Mountain' },
-                    { ar: 'إيس إسبيرسو', en: 'Ice Shaken Espresso' },
-                    { ar: 'ماتشا كريمي', en: 'Creamy Matcha' },
-                    { ar: 'قهوة كريمي', en: 'Creamy Coffee' },
-                    { ar: 'باشن فروت', en: 'Passion Fruit Smoothie' },
-                    { ar: 'بافاروتي البوردي', en: 'Pavarotti Energy' },
-                    { ar: 'شوكولاز باردة', en: 'Cold Chocholate' },
-                    { ar: 'إيس بستاشيو', en: 'Ice Latte Pistachio' },
-                    { ar: 'إيس تيراميسو', en: 'Ice Latte Tiramisu' },
-                    { ar: 'إيس سباركلر', en: 'Sparkler Ice Latte' }
+                    { ar: 'إيس آتي', en: 'Ice Tea', caffeine: 1, type: 'refresh' },
+                    { ar: 'غرين إينرجي', en: 'Green Energy', caffeine: 3, type: 'energy' },
+                    { ar: 'سبيرايت إينرجي', en: 'Spirit Energy', caffeine: 3, type: 'energy' },
+                    { ar: 'كوسميك درينك', en: 'Cosmic Drink', caffeine: 1, type: 'refresh' },
+                    { ar: 'غراند بيروي', en: 'Grand Berry', caffeine: 1, type: 'refresh' },
+                    { ar: 'بلو أوشن', en: 'Blue Ocean', caffeine: 1, type: 'refresh' },
+                    { ar: 'فورتيكس درينك', en: 'Vortex Drink', caffeine: 2, type: 'refresh' },
+                    { ar: 'الليتشي صودا', en: 'Lychee Soda', caffeine: 1, type: 'refresh' },
+                    { ar: 'ريد مورنينغ', en: 'Red Morning', caffeine: 2, type: 'refresh' },
+                    { ar: 'موهيتو', en: 'Mojito', caffeine: 1, type: 'refresh' },
+                    { ar: 'بلو ماونتن', en: 'Blue Mountain', caffeine: 1, type: 'refresh' },
+                    { ar: 'إيس إسبيرسو', en: 'Ice Shaken Espresso', caffeine: 3, type: 'energy' },
+                    { ar: 'ماتشا كريمي', en: 'Creamy Matcha', caffeine: 2, type: 'refresh' },
+                    { ar: 'قهوة كريمي', en: 'Creamy Coffee', caffeine: 3, type: 'energy' },
+                    { ar: 'باشن فروت', en: 'Passion Fruit Smoothie', caffeine: 1, type: 'refresh' },
+                    { ar: 'بافاروتي البوردي', en: 'Pavarotti Energy', caffeine: 3, type: 'energy' },
+                    { ar: 'شوكولاز باردة', en: 'Cold Chocholate', caffeine: 1, type: 'sweet' },
+                    { ar: 'إيس بستاشيو', en: 'Ice Latte Pistachio', caffeine: 3, type: 'energy' },
+                    { ar: 'إيس تيراميسو', en: 'Ice Latte Tiramisu', caffeine: 3, type: 'energy' },
+                    { ar: 'إيس سباركلر', en: 'Sparkler Ice Latte', caffeine: 3, type: 'energy' }
                 ]
             },
             {
                 id: 'frappes-shakes', titleAr: 'الفرابيه والشيك', titleEn: 'FRAPPES SHAKES', icon: 'fa-blender',
                 items: [
-                    { ar: 'شيك سنيكيرز', en: 'Snickers Shake' },
-                    { ar: 'شيك نوفا', en: 'Nova Shake' },
-                    { ar: 'كريسباي شيك', en: 'Crispy Shake' },
-                    { ar: 'ميتيور شيك', en: 'Meteor Shake' },
-                    { ar: 'كيك شيك', en: 'Cake Shake' },
-                    { ar: 'دبي شيك', en: 'Dubai Shake' },
-                    { ar: 'المونت فرابيه', en: 'El Mont Frappe' },
-                    { ar: 'تيراميسو فرابيه', en: 'Tiramisu Frappe' },
-                    { ar: 'دبي فرابيه', en: 'Dubai Frappe' },
-                    { ar: 'كاراميل فرابيه', en: 'Caramel Frappe' },
-                    { ar: 'تانغو مانغو', en: 'Tango Mango' },
-                    { ar: 'أوريو كريمي', en: 'Oreo Creamy' },
-                    { ar: 'فرابيه', en: 'Frappe' }
+                    { ar: 'شيك سنيكيرز', en: 'Snickers Shake', caffeine: 1, type: 'sweet' },
+                    { ar: 'شيك نوفا', en: 'Nova Shake', caffeine: 1, type: 'sweet' },
+                    { ar: 'كريسباي شيك', en: 'Crispy Shake', caffeine: 1, type: 'sweet' },
+                    { ar: 'ميتيور شيك', en: 'Meteor Shake', caffeine: 1, type: 'sweet' },
+                    { ar: 'كيك شيك', en: 'Cake Shake', caffeine: 1, type: 'sweet' },
+                    { ar: 'دبي شيك', en: 'Dubai Shake', caffeine: 1, type: 'sweet' },
+                    { ar: 'المونت فرابيه', en: 'El Mont Frappe', caffeine: 2, type: 'sweet' },
+                    { ar: 'تيراميسو فرابيه', en: 'Tiramisu Frappe', caffeine: 2, type: 'sweet' },
+                    { ar: 'دبي فرابيه', en: 'Dubai Frappe', caffeine: 2, type: 'sweet' },
+                    { ar: 'كاراميل فرابيه', en: 'Caramel Frappe', caffeine: 2, type: 'sweet' },
+                    { ar: 'تانغو مانغو', en: 'Tango Mango', caffeine: 1, type: 'refresh' },
+                    { ar: 'أوريو كريمي', en: 'Oreo Creamy', caffeine: 1, type: 'sweet' },
+                    { ar: 'فرابيه', en: 'Frappe', caffeine: 2, type: 'energy' }
                 ]
             },
             {
                 id: 'desserts', titleAr: 'الحلويات', titleEn: 'DESSERTS', icon: 'fa-cake-candles',
                 items: [
-                    { ar: 'حلاوة الجبن مع الآيس كريم', en: 'Halawet El-Jibn With Ice cream' },
-                    { ar: 'الكنافة بالفستق', en: 'Kunafa With Pistachio' },
-                    { ar: 'آيس كريم', en: 'Ice Cream' },
-                    { ar: 'كرات التيراميسو', en: 'Tiramisu Balls' },
-                    { ar: 'كرات دبي', en: 'Dubai Balls' },
-                    { ar: 'وافل ستيك (لوتس - فستق - شوكولا)', en: 'Waffle Stick (Lotus-Pistachio-Chocolate)' },
-                    { ar: 'تيراميسو', en: 'Tiramisu' },
-                    { ar: 'براونيز', en: 'Brownies' },
-                    { ar: 'فوندان', en: 'Fondant' },
-                    { ar: 'مخروط شوكولاب', en: 'ChocoLab Cone' },
-                    { ar: 'كوكيز', en: 'Cookies' },
-                    { ar: 'سكيليت', en: 'Skillet' },
-                    { ar: 'كرواسون لاب (لوتس - فستق - شوكولا)', en: 'Croissant Lab (Lotus-Pistachio-Chocolate)' }
+                    { ar: 'حلاوة الجبن مع الآيس كريم', en: 'Halawet El-Jibn With Ice cream', caffeine: 0, type: 'sweet' },
+                    { ar: 'الكنافة بالفستق', en: 'Kunafa With Pistachio', caffeine: 0, type: 'sweet' },
+                    { ar: 'آيس كريم', en: 'Ice Cream', caffeine: 0, type: 'sweet' },
+                    { ar: 'كرات التيراميسو', en: 'Tiramisu Balls', caffeine: 1, type: 'sweet' },
+                    { ar: 'كرات دبي', en: 'Dubai Balls', caffeine: 1, type: 'sweet' },
+                    { ar: 'وافل ستيك (لوتس - فستق - شوكولا)', en: 'Waffle Stick (Lotus-Pistachio-Chocolate)', caffeine: 0, type: 'sweet' },
+                    { ar: 'تيراميسو', en: 'Tiramisu', caffeine: 1, type: 'sweet' },
+                    { ar: 'براونيز', en: 'Brownies', caffeine: 0, type: 'sweet' },
+                    { ar: 'فوندان', en: 'Fondant', caffeine: 0, type: 'sweet' },
+                    { ar: 'مخروط شوكولاب', en: 'ChocoLab Cone', caffeine: 0, type: 'sweet' },
+                    { ar: 'كوكيز', en: 'Cookies', caffeine: 0, type: 'sweet' },
+                    { ar: 'سكيليت', en: 'Skillet', caffeine: 0, type: 'sweet' },
+                    { ar: 'كرواسون لاب (لوتس - فستق - شوكولا)', en: 'Croissant Lab (Lotus-Pistachio-Chocolate)', caffeine: 0, type: 'sweet' }
                 ]
             },
             {
                 id: 'hot-drinks', titleAr: 'المشروبات الساخنة', titleEn: 'HOT DRINKS', icon: 'fa-mug-hot',
                 items: [
-                    { ar: 'كافيه لاتييه', en: 'Café Latte' },
-                    { ar: 'لوتس لاتييه', en: 'Lotus Spanish Latte' },
-                    { ar: 'راديانت لاتييه', en: 'Radiant Latte' },
-                    { ar: 'سبايس لاتييه', en: 'Spice Latte' },
-                    { ar: 'كافيين لاب لاتييه', en: 'CaffeineLab Latte' },
-                    { ar: 'ماتشا لاتييه', en: 'Matcha Latte' },
-                    { ar: 'إيس هاني لاتييه', en: 'Ice Honey Latte' },
-                    { ar: 'شاي ماتشا', en: 'Matcha Tea' },
-                    { ar: 'هوت شوكلت لاب', en: 'Hot chocolate Lab' },
-                    { ar: 'شوكو ميكس', en: 'Choco Mix' },
-                    { ar: 'كارميل ميكاتو', en: 'Caramel Machiato' },
-                    { ar: 'شاي الكرك', en: 'Karak Tea' },
-                    { ar: 'شاي المسالا', en: 'Masala Tea' }
+                    { ar: 'كافيه لاتييه', en: 'Café Latte', caffeine: 2, type: 'energy' },
+                    { ar: 'لوتس لاتييه', en: 'Lotus Spanish Latte', caffeine: 2, type: 'energy' },
+                    { ar: 'راديانت لاتييه', en: 'Radiant Latte', caffeine: 2, type: 'energy' },
+                    { ar: 'سبايس لاتييه', en: 'Spice Latte', caffeine: 2, type: 'energy' },
+                    { ar: 'كافيين لاب لاتييه', en: 'CaffeineLab Latte', caffeine: 3, type: 'energy' },
+                    { ar: 'ماتشا لاتييه', en: 'Matcha Latte', caffeine: 2, type: 'energy' },
+                    { ar: 'إيس هاني لاتييه', en: 'Ice Honey Latte', caffeine: 2, type: 'energy' },
+                    { ar: 'شاي ماتشا', en: 'Matcha Tea', caffeine: 2, type: 'refresh' },
+                    { ar: 'هوت شوكلت لاب', en: 'Hot chocolate Lab', caffeine: 1, type: 'sweet' },
+                    { ar: 'شوكو ميكس', en: 'Choco Mix', caffeine: 1, type: 'sweet' },
+                    { ar: 'كارميل ميكاتو', en: 'Caramel Machiato', caffeine: 2, type: 'energy' },
+                    { ar: 'شاي الكرك', en: 'Karak Tea', caffeine: 1, type: 'refresh' },
+                    { ar: 'شاي المسالا', en: 'Masala Tea', caffeine: 1, type: 'refresh' }
                 ]
             },
             {
                 id: 'keto-sweets', titleAr: 'حلويات كيتو', titleEn: 'KETO SWEETS', icon: 'fa-seedling',
                 items: [
-                    { ar: 'كيك مع جوز السينامون', en: 'Cake with Cinnabon Walnut' },
-                    { ar: 'كيك الشوكولاتة كيتو', en: 'Keto Chocolate Cake' },
-                    { ar: 'كوكيز الشوفان', en: 'Oat Cookies' },
-                    { ar: 'جرانولا بالمكسرات', en: 'Granola with Nuts' }
+                    { ar: 'كيك مع جوز السينامون', en: 'Cake with Cinnabon Walnut', caffeine: 0, type: 'keto' },
+                    { ar: 'كيك الشوكولاتة كيتو', en: 'Keto Chocolate Cake', caffeine: 0, type: 'keto' },
+                    { ar: 'كوكيز الشوفان', en: 'Oat Cookies', caffeine: 0, type: 'keto' },
+                    { ar: 'جرانولا بالمكسرات', en: 'Granola with Nuts', caffeine: 0, type: 'keto' }
                 ]
             },
             {
                 id: 'coffee-drinks', titleAr: 'مشروبات القهوة والشيشة', titleEn: 'COFFEE & SHISHA', icon: 'fa-coffee',
                 items: [
-                    { ar: 'إسبريسو', en: 'Espresso' },
-                    { ar: 'إسبريسو دوبيو', en: 'Espresso Dopio' },
-                    { ar: 'إيريش إسبريسو', en: 'Irish Espresso' },
-                    { ar: 'أوفردرايف', en: 'Overdrive' },
-                    { ar: 'كوفي لاب', en: 'Coffeelab' },
-                    { ar: 'V60', en: 'V60' },
-                    { ar: 'أمريكانو', en: 'Americano' },
-                    { ar: 'قهوة تركية', en: 'Turkish coffee' },
-                    { ar: 'معسل بجميع أنواعه', en: 'Shisha - All Flavors & Blends' }
+                    { ar: 'إسبريسو', en: 'Espresso', caffeine: 3, type: 'energy' },
+                    { ar: 'إسبريسو دوبيو', en: 'Espresso Dopio', caffeine: 3, type: 'energy' },
+                    { ar: 'إيريش إسبريسو', en: 'Irish Espresso', caffeine: 3, type: 'energy' },
+                    { ar: 'أوفردرايف', en: 'Overdrive', caffeine: 3, type: 'energy' },
+                    { ar: 'كوفي لاب', en: 'Coffeelab', caffeine: 3, type: 'energy' },
+                    { ar: 'V60', en: 'V60', caffeine: 3, type: 'energy' },
+                    { ar: 'أمريكانو', en: 'Americano', caffeine: 3, type: 'energy' },
+                    { ar: 'قهوة تركية', en: 'Turkish coffee', caffeine: 3, type: 'energy' },
+                    { ar: 'معسل بجميع أنواعه', en: 'Shisha - All Flavors & Blends', caffeine: 0, type: 'refresh' }
                 ]
             }
         ];
@@ -429,6 +492,7 @@
         let isDragging = false;
         let startAngle = 0;
         let lastRandomIndex = -1;
+        let activeCategoryIndex = 0;
 
         const orbitRing = document.getElementById('orbitRing');
         const orbitWrapper = document.getElementById('orbitWrapper');
@@ -461,6 +525,7 @@
         }
 
         function selectCategory(index) {
+            activeCategoryIndex = index;
             const items = orbitRing.querySelectorAll('.orbit-item');
             items.forEach((el, i) => {
                 if(i === index) el.classList.add('active');
@@ -469,21 +534,120 @@
             updatePanel(index);
         }
 
-        function updatePanel(index) {
+        function updatePanel(index, filteredItems = null) {
             const cat = MENU_DATA[index];
             document.getElementById('panelIcon').innerHTML = `<i class="fa-solid ${cat.icon}"></i>`;
             document.getElementById('panelTitleAr').innerText = cat.titleAr;
             document.getElementById('panelTitleEn').innerText = cat.titleEn;
 
+            const itemsToRender = filteredItems || cat.items;
             const container = document.getElementById('panelItems');
-            container.innerHTML = cat.items.map(d => `
-                <div class="dish-row">
-                    <div class="dish-info">
-                        <h4>${d.ar}</h4>
-                        <p>${d.en}</p>
+            
+            if(itemsToRender.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; font-size:11px; color:var(--text-sub);">لا توجد عناصر مطابقة لهذا الفلتر في هذا القسم</div>`;
+                return;
+            }
+
+            container.innerHTML = itemsToRender.map(d => {
+                // ساخت مقیاس کافئین (دانه قهوه)
+                let caffeineHTML = '';
+                if(d.caffeine > 0) {
+                    caffeineHTML = `<div class="caffeine-meter" title="مستوى الكافيين">`;
+                    for(let i=1; i<=3; i++) {
+                        caffeineHTML += `<i class="fa-solid fa-mug-hot ${i <= d.caffeine ? '' : 'inactive'}"></i>`;
+                    }
+                    caffeineHTML += `</div>`;
+                }
+
+                return `
+                    <div class="dish-row">
+                        <div class="dish-info">
+                            <h4>${d.ar}</h4>
+                            <p>${d.en}</p>
+                        </div>
+                        ${caffeineHTML}
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+        }
+
+        // فیلتر رژیمی
+        function filterDiet(type, chipElement) {
+            document.querySelectorAll('.diet-chip').forEach(c => c.classList.remove('active'));
+            chipElement.classList.add('active');
+
+            const cat = MENU_DATA[activeCategoryIndex];
+            if(type === 'all') {
+                updatePanel(activeCategoryIndex);
+            } else if(type === 'keto') {
+                const filtered = cat.items.filter(item => item.type === 'keto' || item.ar.includes('كيتو') || item.ar.includes('كيتوني'));
+                updatePanel(activeCategoryIndex, filtered);
+            } else if(type === 'caffeine') {
+                const filtered = cat.items.filter(item => item.caffeine >= 3);
+                updatePanel(activeCategoryIndex, filtered);
+            } else if(type === 'sweet') {
+                const filtered = cat.items.filter(item => item.type === 'sweet');
+                updatePanel(activeCategoryIndex, filtered);
+            }
+        }
+
+        // چرخش عجله شانس
+        function spinLuckyMenu() {
+            const total = MENU_DATA.length;
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * total);
+            } while (randomIndex === lastRandomIndex && total > 1);
+            
+            lastRandomIndex = randomIndex;
+
+            orbitRing.classList.add('spinning');
+            const items = orbitRing.querySelectorAll('.orbit-item');
+            items.forEach(el => el.classList.remove('active'));
+
+            const anglePerItem = 360 / total;
+            const itemBaseAngle = randomIndex * anglePerItem;
+            const spins = 4 * 360;
+            const targetMod = (targetAngleDeg - itemBaseAngle) % 360;
+            const currentMod = currentRotation % 360;
+            
+            let diff = targetMod - currentMod;
+            if (diff < 0) diff += 360;
+
+            currentRotation += spins + diff;
+            orbitRing.style.transform = `rotate(${currentRotation}deg)`;
+
+            items.forEach((el, i) => {
+                const angle = (i / total) * 2 * Math.PI;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                el.style.transform = `translate(${x}px, ${y}px) rotate(${-currentRotation}deg)`;
+            });
+
+            setTimeout(() => {
+                orbitRing.classList.remove('spinning');
+                selectCategory(randomIndex);
+            }, 1200);
+        }
+
+        // کنترل‌های دستیار هوشمند
+        function openAssistant() { document.getElementById('assistantModal').style.display = 'flex'; }
+        function closeAssistant() { document.getElementById('assistantModal').style.display = 'none'; }
+        
+        function recommendByMood(moodType) {
+            closeAssistant();
+            // یافتن تصادفی یک آیتم مرتبط با حس و حال کاربر
+            let matchingItems = [];
+            MENU_DATA.forEach(cat => {
+                cat.items.forEach(item => {
+                    if(item.type === moodType) matchingItems.push({catTitle: cat.titleAr, ...item});
+                });
+            });
+
+            if(matchingItems.length > 0) {
+                const chosen = matchingItems[Math.floor(Math.random() * matchingItems.length)];
+                alert(`✨ اقتراح مساعد الذوق لك:\n\n☕ ${chosen.ar} (${chosen.en})\n📁 القسم: ${chosen.catTitle}`);
+            }
         }
 
         orbitWrapper.addEventListener('pointerdown', (e) => {
@@ -513,51 +677,7 @@
             });
         });
 
-        window.addEventListener('pointerup', () => {
-            isDragging = false;
-        });
-
-        function spinLuckyMenu() {
-            const total = MENU_DATA.length;
-            let randomIndex;
-            
-            do {
-                randomIndex = Math.floor(Math.random() * total);
-            } while (randomIndex === lastRandomIndex && total > 1);
-            
-            lastRandomIndex = randomIndex;
-
-            orbitRing.classList.add('spinning');
-            const items = orbitRing.querySelectorAll('.orbit-item');
-            items.forEach(el => el.classList.remove('active'));
-
-            const anglePerItem = 360 / total;
-            const itemBaseAngle = randomIndex * anglePerItem;
-            
-            const spins = 4 * 360;
-            const targetMod = (targetAngleDeg - itemBaseAngle) % 360;
-            const currentMod = currentRotation % 360;
-            
-            let diff = targetMod - currentMod;
-            if (diff < 0) diff += 360;
-
-            currentRotation += spins + diff;
-
-            orbitRing.style.transform = `rotate(${currentRotation}deg)`;
-
-            items.forEach((el, i) => {
-                const angle = (i / total) * 2 * Math.PI;
-                const x = radius * Math.cos(angle);
-                const y = radius * Math.sin(angle);
-                el.style.transform = `translate(${x}px, ${y}px) rotate(${-currentRotation}deg)`;
-            });
-
-            setTimeout(() => {
-                orbitRing.classList.remove('spinning');
-                selectCategory(randomIndex);
-            }, 1200);
-        }
-
+        window.addEventListener('pointerup', () => { isDragging = false; });
         window.addEventListener('load', initOrbit);
     </script>
 </body>
