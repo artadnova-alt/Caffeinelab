@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caffeine Lab | Menu</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Vazirmatn:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --brand-green: #a98e57;
+            --brand-dark-green: #0a1f18;
+            --brand-green-glow: rgba(169, 142, 87, 0.4);
+            --bg-deep: #05120e;
+            --card-bg: rgba(14, 38, 30, 0.95);
+            --accent-gold: #e2c070;
+            --text-main: #f4f7ee;
+            --text-sub: #a3b3a7;
+            --border-glow: rgba(169, 142, 87, 0.3);
+            --radius-xl: 24px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-top: 4px;
+        }
+
+        .lucky-btn {
+            background: linear-gradient(135deg, var(--brand-green), #8a7243);
+            color: var(--bg-deep);
+            border: none;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 0 20px var(--brand-green-glow);
+            transition: all 0.3s ease;
+            margin: 10px 0 25px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lucky-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px var(--brand-green);
+        }
+
+        .orbit-wrapper {
+            position: relative;
+            width: 360px;
+            height: 360px;
+            margin: 10px auto 25px auto;
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+        }
+
+        .orbit-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            width: 360px;
+            height: 360px;
+            border: 1px dashed rgba(169, 142, 87, 0.4);
+            border-radius: 50%;
+            transition: transform 1.2s cubic-bezier(0.15, 0.85, 0.35, 1);
+            pointer-events: none;
+        }
+
+        .center-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110px;
+            height: 110px;
+            background: #a98e57;
+            border: 2px solid var(--brand-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px var(--brand-green-glow);
+            z-index: 5;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .center-logo svg {
+            width: 115%;
+            height: 115%;
+        }
+
+        .orbit-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 65px;
+            height: 65px;
+            margin: -32.5px 0 0 -32.5px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            z-index: 4;
+            pointer-events: auto;
+        }
+
+        .orbit-item:hover, .orbit-item.active {
+            border-color: var(--brand-green);
+            background: var(--brand-green);
+            color: var(--bg-deep);
+            box-shadow: 0 0 20px var(--brand-green);
+        }
+
+        .orbit-ring.spinning .orbit-item {
+            background: var(--card-bg) !important;
+            border-color: var(--border-glow) !important;
+            color: var(--text-main) !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5) !important;
+        }
+        .orbit-ring.spinning .orbit-item i {
+            color: var(--brand-green) !important;
+        }
+
+        .orbit-item i {
+            font-size: 16px;
+            color: var(--brand-green);
+            transition: color 0.3s;
+        }
+
+        .orbit-item:hover i, .orbit-item.active i {
+            color: var(--bg-deep);
+        }
+
+        .orbit-item span {
+            font-size: 8px;
+            font-weight: 700;
+            margin-top: 2px;
+            white-space: nowrap;
+            max-width: 55px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .submenu-panel {
+            width: 100%;
+            max-width: 550px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-glow);
+            border-radius: var(--radius-xl);
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            backdrop-filter: blur(15px);
+            margin-bottom: 40px;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px dashed rgba(169, 142, 87, 0.3);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .panel-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--brand-green);
+            color: var(--bg-deep);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .panel-title h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .panel-title span {
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            color: var(--accent-gold);
+        }
+
+        .dish-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: background 0.2s;
+        }
+
+        .dish-row:hover {
+            background: rgba(169, 142, 87, 0.05);
+            border-radius: 10px;
+        }
+
+        .dish-row:last-child {
+            border-bottom: none;
+        }
+
+        .dish-info h4 {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .dish-info p {
+            font-size: 10px;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CAFFEINE LAB</h1>
+        <p>انقر على الخيارات أو اسحب الدائرة بيدك لعرض القائمة</p>
+    </header>
+
+    <button class="lucky-btn" onclick="spinLuckyMenu()">
+        <i class="fa-solid fa-dice"></i> إذا كنت محتاراً، اختر عشوائياً!
+    </button>
+
+    <div class="orbit-wrapper" id="orbitWrapper">
+        <div class="orbit-ring" id="orbitRing"></div>
+        <div class="center-logo">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="365px" height="365px" viewBox="0 0 365 365" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd">
+                <g><path fill="#ffffff" stroke="#ffffff" stroke-width="0.5" d="M 0,0 c 56.34,0 112.69,0 169.03,0 c -0.13,0.29 -0.35,0.47 -0.66,0.55 c -2.84,0.24 -5.67,0.55 -8.5,0.93 c -7.42,0.92 -14.77,2.29 -22.03,4.09 c -19.92,5.14 -38.5,13.33 -55.74,24.56 c -20.4,13.56 -37.46,30.49 -51.19,50.77 c -11.59,17.58 -20.03,36.56 -25.32,56.94 c -1.71,7.28 -3.1,14.63 -4.16,22.03 c -0.38,3.17 -0.66,6.34 -0.84,9.51 c -0.09,0.33 -0.28,0.54 -0.59,0.65 c 0,-56.68 0,-113.35 0,-170.03 Z M 195.98,0 c 56.34,0 112.68,0 169.02,0 c 0,56.34 0,112.69 0,169.03 c -0.28,-0.14 -0.46,-0.36 -0.54,-0.67 c -0.25,-2.85 -0.55,-5.71 -0.89,-8.56 c -1.05,-7.39 -2.44,-14.72 -4.16,-21.99 c -5.32,-20.37 -13.76,-39.35 -25.34,-56.93 c -13.43,-19.89 -30.09,-36.53 -49.99,-49.94 c -17.55,-11.65 -36.53,-20.1 -56.94,-25.35 c -8.21,-2.05 -16.52,-3.54 -24.92,-4.49 c -1.02,-0.46 -6.03,0.07 -6.24,-1.1 Z M 0,194.97 c 1.04,0.48 1.03,8.69 1.52,10.19 c 0.9,6.66 2.1,13.26 3.59,19.8 c 5.14,20.87 13.61,40.27 25.4,58.23 c 13.69,20.06 30.53,36.97 50.53,50.75 c 17.57,11.56 36.52,19.99 56.88,25.28 c 8.54,2.1 17.19,3.63 25.94,4.61 c 3.14,0.31 6.29,0.5 9.44,0.56 c 0.33,0.1 0.58,0.3 0.72,0.61 c -58,0 -116.01,0 -174.02,0 c 0,-56.68 0,-113.35 0,-170.03 Z M 365,195.97 c 0,56.34 0,112.69 0,169.03 c -58.01,0 -116.02,0 -174.03,0 c 0.14,-0.28 0.37,-0.46 0.68,-0.54 c 4.48,-0.2 8.96,-0.57 13.41,-1.12 c 6.39,-0.77 12.7,-1.92 18.95,-3.44 c 21.52,-5.09 41.5,-13.75 59.93,-25.98 c 19.66,-13.48 36.26,-30.03 49.79,-49.66 c 11.73,-17.6 20.28,-36.64 25.66,-57.1 c 1.73,-7.26 3.11,-14.58 4.11,-21.97 c 0.37,-2.85 0.69,-5.71 0.95,-8.57 c 0.08,-0.31 0.26,-0.53 0.55,-0.65 Z"/></g>
+                <g><path fill="#9b9061" d="M 139.45,108.67 c -3.17,2.8 -12.36,4.84 -12.33,9.83 c 0.04,19.33 0.04,38.67 0,58 c 0.01,2.22 0.97,3.89 2.88,5 c -1.35,0.95 -2.79,1.04 -4.3,0.29 c -0.4,-0.32 -0.57,-0.73 -0.53,-1.24 c 0.42,-6.06 -0.79,-14.34 -0.43,-19.93 c -0.58,-4.63 -0.23,-8.79 0.28,-13.1 c 0.36,-9.43 -0.88,-18.6 -0.13,-28 c -0.04,-1.27 -1.48,-2.31 -0.25,-3.49 c 1.79,-1.51 2.14,-3.88 4.73,-4.13 c 0.35,-0.65 0.75,-1.26 1.21,-1.81 c 2.73,-0.12 2.11,-0.12 3.02,-2 c 1.86,-0.09 4.22,-0.57 5.85,0.58 Z"/></g>
+                <g><path fill="#968e66" d="M 151.29,130.33 c -7.16,19.03 -0.82,40.4 17.06,50.72 c -0.08,1.68 -2.75,0.85 -3.72,0.73 c -1.32,-1.79 -4.38,-3.99 -5.38,-5.64 c -1.76,-0.56 -2.85,-1.77 -3.25,-3.61 c -0.9,-0.4 -1.74,-0.9 -2.53,-1.5 c -0.31,-1.57 -0.79,-3.08 -1.43,-4.52 c -1.84,-1.24 -2.55,-0.26 -1.38,-3.04 c 0.3,-2.26 -0.5,-2.81 -2.4,-1.62 c -1.02,-0.41 0.17,-1.7 -0.12,-2.42 c -0.96,-3.11 -2.12,-4.4 -0.87,-7.89 c -1.41,-6.02 1.63,-12.54 -0.08,-18.08 c 0.65,-2.67 0.82,-4.31 4.1,-3.13 Z"/></g>
+                <g><path fill="#9c9064" d="M 252.29,202.74 c -0.9,1.08 -1.31,2.33 -1.24,3.73 c 0.09,12.48 0.16,24.96 0.23,37.44 c -2.01,-0.73 -1.5,-3.39 -2.76,-0.3 c -0.87,-1.07 -1.21,-1.87 -2.78,-2.1 c 0.56,-1.09 3.09,-5.7 1.67,-6.42 c -3.94,0.39 -2.93,2.92 -3.49,5.89 c -2.47,-0.32 -0.91,-5.45 -0.15,-6.72 c 1.16,0.28 2.13,-0.03 2.89,-0.94 c 1.09,-0.2 2.55,1.52 3.17,0.03 c 0.25,-9.67 0.22,-19.35 -0.08,-29.02 c -0.09,-2.23 0.75,-2.76 2.54,-1.59 Z"/></g>
+                <g><path fill="#e4d0a6" d="M 204.86,253.21 c 0.67,0.05 1.35,0.12 2.02,0.21 c 0.06,0.86 0.35,1.61 0.87,2.26 c 5.12,-0.5 4.7,3.02 4.11,6.84 c -2.46,2.3 -1.66,-3.9 -2.09,-4.8 c -0.71,-1.05 -2.33,-0.22 -2.49,0.9 c -0.28,0.94 0.43,5.01 -1.58,4.28 c -0.41,-0.39 -0.59,-0.86 -0.56,-1.42 c -0.05,-1.96 -0.11,-3.92 -0.15,-5.87 c -1.76,-0.3 -4.02,-1.15 -5.49,0.34 c -1,1.94 -0.84,3.79 0.48,5.54 c 1.17,0.22 2.36,0.34 3.56,0.36 c 0.83,0.91 -0.08,1.21 -0.98,1.29 c -7.2,1.57 -8.13,-9.64 -1.05,-9.99 c 1.02,0.2 2.01,0.47 2.97,0.81 c 0.35,-0.14 0.47,-0.39 0.38,-0.75 Z"/></g>
+                <g><path fill="#998d64" d="M 151.76,193.94 c 4.47,2.51 8.91,5.06 13.31,7.67 c -1.14,0.98 -5.89,-1.27 -4.4,1.92 c -0.49,0.36 -1.04,0.55 -1.66,0.57 c -0.42,-0.11 -0.81,-0.28 -1.18,-0.52 c -1.54,-1.81 -3.39,-3.19 -5.55,-4.15 c -2.62,0.06 -6.72,-0.06 -8.23,2.5 c -4.78,2.71 -5.08,8.77 -4.76,13.64 c -0.02,0.85 -0.44,1.4 -1.25,1.65 c -0.67,-0.12 -1.34,-0.17 -2.01,-0.17 c -0.14,-0.49 -0.17,-0.99 -0.11,-1.5 c 2.08,-3.5 2.31,-6.11 2.89,-10.1 c 0.46,-2.14 2.21,-3.67 2.92,-5.23 c 0.48,-0.14 0.93,-0.35 1.35,-0.64 c 0.49,-2.93 1.84,-0.21 3.17,-1.82 c -1.37,-1.64 -1.01,-2.12 1.06,-1.43 c 1.64,1.16 3.75,2.96 5.52,0.9 c 0.26,-0.52 0.16,-0.95 -0.32,-1.28 c -2.53,-0.65 -3.3,-0.06 -0.75,-2.01 Z M 132.17,202.06 c -2.62,-2.81 -5.74,-3.53 -9.35,-2.17 c -0.99,0.42 -1.92,0.93 -2.81,1.52 c -4.94,3.35 -5.12,9.71 -5.06,15.07 c -0.12,0.44 -0.39,0.72 -0.82,0.85 c -1.39,-0.27 -2.8,-0.42 -4.23,-0.43 c 0.24,-0.93 0.53,-1.83 0.87,-2.71 c 2.77,-2.07 2.88,-6.54 4.56,-9.65 c -0.28,-2.38 -0.01,-1.87 1.89,-2.83 c 0.41,-1.77 0.58,-1.48 2.27,-1.59 c 0.27,-0.77 0.61,-1.51 1,-2.22 c 1.03,-0.01 2.03,0.16 3.01,0.51 c 2.6,-0.3 5.2,-0.39 7.8,-0.25 c 2.02,1.29 1.53,1.86 0.87,3.9 Z M 270.03,230.51 c -0.13,0.04 -0.26,0.08 -0.38,0.12 c -6.68,1.73 -12.11,9.19 -6.62,15.25 c -1.18,0.76 -2.36,1.51 -3.53,2.23 c -0.82,-0.06 -7.33,1.01 -6.34,-0.94 c 1.29,0.3 5,0.82 5.63,-0.62 c -1.29,-3.21 -0.8,-7.04 -0.82,-10.49 c 0.44,0.05 0.86,0 1.27,-0.16 c 1.92,-1.75 3.7,-3.64 5.37,-5.69 c 1.59,-0.08 4.08,-0.87 5.42,0.3 Z M 57.99,246.7 c 2.64,0.62 5.31,0.86 8.02,0.73 c 1.91,0.01 3.76,-0.3 5.56,-0.93 c 0.1,1 0.88,2.62 -0.23,3.33 c -2.06,-0.09 -4.08,0.09 -6.06,0.53 c 0.29,0.66 2.05,0.95 1.25,1.71 c -1.14,-0.19 -4.7,0.7 -5.31,-0.33 c 0.52,-0.45 1.03,-0.9 1.54,-1.36 c -1.98,-0.38 -4.02,-0.57 -6.1,-0.56 c -1.66,-1.49 -0.5,-2.87 1.33,-3.12 Z"/></g>
+                <g><path fill="#e7d7b1" d="M 169.75,258.03 c -0.03,-2.67 2.91,-2.19 4.74,-2.15 c 2.5,-0.16 1.61,2.86 1.01,4.18 c -1.03,0.51 -2.09,0.95 -3.19,1.3 c 1.33,0.06 2.49,0.53 3.47,1.39 c 0.94,3.68 -2.71,3.48 -5.16,3 c -0.71,-0.51 -0.71,-1.04 -0.01,-1.58 c 1.14,0 2.21,-0.21 3.21,-0.64 c -1.07,-0.45 -2.2,-0.64 -3.4,-0.58 c -0.9,-1.02 -0.42,-3.56 -0.67,-4.92 Z M 226.21,255.9 c 0.74,-0.23 4.7,-0.53 3.25,1.07 c -0.81,0.24 -1.64,0.44 -2.48,0.62 c -0.96,1.29 -0.97,2.59 -0.04,3.89 c 1.06,0.16 2.03,0.53 2.91,1.11 c -1.15,1.17 -3.73,0.58 -4.68,-0.74 c -1.01,-1.58 -1.02,-3.17 -0.03,-4.76 c 0.36,-0.4 0.72,-0.79 1.07,-1.19 Z M 171.41,258.1 c 0.14,1.15 0.78,1.7 1.92,1.67 c 2.01,-1.75 -0.4,-3.83 -1.92,-1.67 Z"/></g>
+                <g><path fill="#9a9067" d="M 158.63,205.12 c -0.56,1.51 -4.66,0.87 -5.96,0.71 c -0.67,-0.96 -2.12,-3.31 -3.46,-1.64 c 0.18,0.37 0.33,0.74 0.44,1.14 c -0.68,2.38 -1.34,4.77 -1.96,7.17 c -0.24,1.23 0.12,2.25 1.08,3.04 c -0.83,0.26 -1.47,0.74 -1.92,1.45 c -0.6,-0.28 -0.87,-0.77 -0.82,-1.46 c -0.13,-3.2 0.03,-6.37 0.5,-9.54 c 0.64,-1.16 1.02,-2.39 1.16,-3.69 c 1.14,-0.65 2.36,-1.01 3.66,-1.08 c 1.62,0.61 2.82,1.69 3.6,3.24 c 1.23,0.19 2.46,0.41 3.68,0.66 Z"/></g>
+                <g><path fill="#cab690" d="M 317.43,198.7 c 1.11,0.32 3.75,-0.2 4.19,1.06 c -1.74,3.02 -3.29,-0.17 -4.66,1.72 c -0.02,1.06 -0.41,3.55 0.51,4.26 c 0.53,-0.94 0.74,-1.97 0.65,-3.09 c 2.35,-2.38 6.01,0.33 1.95,3.1 c -0.1,0.69 0.19,1.14 0.87,1.35 c -0.98,1.97 -4.17,1.03 -5.57,0.04 c -2.27,-3.52 -1.59,-6.33 2.06,-8.44 Z"/></g>
+                <g><path fill="#a4916a" d="M 150.15,257.9 c -0.18,-3.05 1.17,-3.91 4.05,-2.56 c 1.14,0.82 0.72,3.83 0.55,5.04 c -3.13,3.42 -4.93,1.22 -4.6,-2.48 Z M 214.24,260 c 0.15,-1.94 1.64,-4 3.57,-2.2 c 1.8,4.02 -2.49,5.79 -3.57,2.2 Z"/></g>
+                <g><path fill="#ebd9b5" d="M 136.02,253.9 c 0.16,2 1.22,6.55 -0.48,8 c -0.42,-1.18 -0.77,-2.38 -1.06,-3.59 c -0.61,0.96 -1.32,1.84 -2.12,2.66 c -1.86,0.56 -1.68,-3.7 -3.38,-2.29 c -0.17,1.36 -0.13,2.73 0.12,4.09 c -2.92,0 -1.54,-5.45 -1.86,-7.22 c 0.01,-1.43 0.66,-1.88 1.95,-1.35 c 0.72,1.01 1.37,2.06 1.96,3.16 c 1.48,2.22 2.41,-1.82 3.2,-2.59 c 0.47,-0.47 1.02,-0.76 1.67,-0.87 Z"/></g>
+                <g><path fill="#97916a" d="M 52.19,204.77 c 2.34,2.49 -1.02,4.67 -2.05,6.83 c -1.58,4.82 -0.24,8.11 0.02,12.99 c 0.17,0.89 -0.17,1.36 -1.03,1.44 c -1.56,-4.83 -1.82,-9.73 -0.79,-14.69 c 0.67,-2.55 1.95,-4.74 3.85,-6.57 Z"/></g>
+                <g><path fill="#9e8e60" stroke="#9e8e60" stroke-width="0.5" d="M 128.71,290 c -0.07,-3.71 3.84,-5.14 5.13,-1.44 c 0.21,1.43 0.62,5.04 -1.37,5.48 c -2.95,0.33 -4.2,-1.02 -3.76,-4.04 Z"/></g>
+                <g><path fill="#b4a37d" d="M 225.14,257.09 c -0.99,1.59 -0.98,3.18 0.03,4.76 c -0.84,0.57 -1.74,0.98 -2.72,1.23 c -1.06,-0.19 -2.05,-0.55 -2.96,-1.09 c 1.11,-1.68 1.08,-3.33 -0.12,-4.97 c 0.34,-0.47 0.78,-0.81 1.33,-1.02 c 1.7,1.8 1.05,2.24 1.05,4.53 c 0.55,1.55 0.96,1.56 1.24,0.01 c 0.02,-1.62 0.04,-3.25 0.05,-4.87 c -0.64,-0.53 -2.14,-0.82 -1.8,-1.94 c 0.85,-0.74 1.71,-0.75 2.57,-0.05 c 0.44,0.96 -0.27,3.43 1.33,3.41 Z"/></g>
+                <g><path fill="#b3a27b" d="M 136.02,253.9 c 0.74,0.52 1.28,1.19 1.63,2.03 c -0.02,0.33 -0.03,0.67 -0.05,1 c -0.26,0.44 -0.24,0.86 0.07,1.27 c 0.23,0.15 0.46,0.3 0.69,0.45 c -0.03,0.58 0.19,1.03 0.67,1.35 c 0.05,0.15 0.1,0.29 0.15,0.43 c -2.48,0.09 -1.16,1.84 -2.7,2.47 c -2.1,-0.58 -5.51,-1.84 -7.38,-0.13 c -0.25,-1.36 -0.29,-2.73 -0.12,-4.09 c 1.7,-1.41 1.52,2.85 3.38,2.29 c 0.8,-0.82 1.51,-1.7 2.12,-2.66 c 0.29,1.21 0.64,2.41 1.06,3.59 c 1.7,-1.45 0.64,-6 0.48,-8 Z"/></g>
+                <g><path fill="#e7d2ab" d="M 137.65,255.93 c 0.78,0.04 1.43,0.35 1.94,0.93 c 0.22,1.47 0.86,2.73 1.92,3.76 c 1.03,-1.76 1.02,-5.1 3.86,-4.55 c -1.34,3.02 -2.78,5.98 -4.31,8.9 c -0.76,0.92 -2.95,1.58 -2.88,-0.28 c 1.4,-1.38 2.74,-2.12 1,-4.26 c -0.05,-0.14 -0.1,-0.28 -0.15,-0.43 c -0.04,-0.54 -0.27,-0.99 -0.67,-1.35 c -0.23,-0.15 -0.46,-0.3 -0.69,-0.45 c -0.02,-0.42 -0.05,-0.85 -0.07,-1.27 c 0.02,-0.33 0.03,-0.67 0.05,-1 Z"/></g>
+                <g><path fill="#ebd9b1" d="M 214.29,256.01 c 1.92,-0.87 3.61,-0.53 5.08,1.01 c 1.2,1.64 1.23,3.29 0.12,4.97 c -4.61,4.23 -9.49,-1.64 -5.2,-5.98 Z M 214.24,260 c 1.08,3.59 5.37,1.82 3.57,-2.2 c -1.93,-1.8 -3.42,0.26 -3.57,2.2 Z"/></g>
+                <g><path fill="#716235" d="M 239.21,228.03 c 0.21,0.07 0.42,0.14 0.62,0.21 c 0.57,0.93 -1.35,1.61 -1.85,2.07 c -2.92,1.4 -5.81,2.86 -8.67,4.36 c -0.54,-0.32 -0.86,-0.79 -0.97,-1.4 c 3.57,-1.89 7.19,-3.63 10.87,-5.24 Z"/></g>
+                <g><path fill="#6c5f32" d="M 156.94,234.75 c -0.36,-0.44 -0.66,-0.91 -0.92,-1.41 c 3.07,-1.6 6.18,-3.13 9.32,-4.57 c 0.74,-0.29 2.47,-2.58 2.56,-0.39 c -0.13,1.57 -6.27,3.57 -7.56,4.4 c -1.33,0.82 -1.62,1.99 -3.4,1.97 Z"/></g>
+                <g><path fill="#e5d2a8" d="M 321.62,199.76 c 0.88,1.29 1.36,2.71 1.46,4.26 c -0.17,1.41 -0.88,2.44 -2.14,3.08 c -0.68,-0.21 -0.97,-0.66 -0.87,-1.35 c 4.06,-2.77 0.4,-5.48 -1.95,-3.1 c 0.09,1.12 -0.12,2.15 -0.65,3.09 c -0.92,-0.71 -0.53,-3.2 -0.51,-4.26 c 1.37,-1.89 2.92,1.3 4.66,-1.72 Z"/></g>
+                <g><path fill="#757757" d="M 194.9,300.2 c 0.02,0.22 0.04,0.43 0.05,0.65 c 0.23,2.28 0.25,4.56 0.07,6.83 c -0.59,0.29 -1.21,0.39 -1.86,0.3 c 0.15,-1.82 0.19,-3.64 0.12,-5.46 c 0.04,-0.91 -0.36,-1.48 -1.2,-1.73 c 0.22,-1.04 2.08,-0.58 2.82,-0.59 Z"/></g>
+                <g><path fill="#bc9d65" stroke="#bc9d65" stroke-width="0.5" d="M 159.87,1.48 c 5.81,19.26 8.75,32.71 21.53,48.92 c 0.72,0.71 1.47,0.75 2.23,0.11 c 6.01,-6.88 25.05,-41.68 18.59,-49.41 c 8.4,0.95 16.71,2.44 24.92,4.49 c -11.12,21 -22.74,35.78 -39.01,52.91 c 6.62,7.54 14.62,13.08 24.03,16.63 c 10.86,6.19 52.68,7.54 58.48,-3.88 c 3.59,-13.15 5.86,-28.68 13.44,-40.31 c 19.9,13.41 36.56,30.05 49.99,49.94 c -1.81,0.42 -3.33,1.31 -4.55,2.67 c -0.55,-0.26 -1.1,-0.26 -1.66,-0.01 c -7.59,5.68 -38.13,6.85 -39.56,16.19 c -7.72,24.63 -4.31,58.66 17.28,75.45 c 1.97,1.51 16.75,-13.33 18.87,-15.21 c 8.72,-7.56 18.5,-13.52 28.45,-19.28 c 0.93,-0.8 1.08,0.47 1.62,0.94 c 0.34,-0.81 0.77,-1.57 1.29,-2.29 c 1.13,-0.67 2.33,-1.18 3.6,-1.53 c 1.72,7.27 3.11,14.6 4.16,21.99 c -15.36,3.49 -29.17,6.98 -42.62,15.59 c -2.69,2.01 -5.3,4.08 -7.81,6.23 c 0.02,0.37 0.19,0.67 0.5,0.89 c 2.29,1.8 4.54,3.66 6.75,5.58 c 12.73,8.64 26.12,11.88 40.77,15.58 c 0.9,0.32 1.68,0.82 2.34,1.52 c -1,7.39 -2.38,14.71 -4.11,21.97 c -0.19,-0.45 -0.49,-0.79 -0.91,-1.03 c -2.38,0.72 -0.94,-0.12 -2.35,-1.75 c -1.18,-0.6 -2.42,-0.84 -3.72,-0.74 c -4.81,-5.42 -20.61,-13.54 -27.57,-18.85 c -0.54,-0.37 -1.13,-0.62 -1.76,-0.77 c -0.1,-1.55 -0.58,-2.97 -1.46,-4.26 c -0.44,-1.26 -3.08,-0.74 -4.19,-1.06 c -27.93,-28.95 -43.88,-56.72 -47.7,-97.6 c -0.36,-1.65 -0.83,-3.27 -1.4,-4.85 c -2.03,-0.81 -4.14,-1.39 -6.32,-1.75 c -29.17,-2.57 -50.82,-12 -74.55,-28.44 c -3.81,-2.38 -6.01,-2.29 -9.84,-0.08 c -16.71,12.38 -35.19,20.92 -55.45,25.62 c -8.57,1.57 -17.16,3 -25.77,4.28 c -1.26,8.06 -2.62,16.12 -4.08,24.19 c -9.68,46.87 -42.55,84.92 -85.31,105.29 c -0.7,0.22 -1.33,0.08 -1.9,-0.4 c -1.49,-6.54 -2.69,-13.14 -3.59,-19.8 c 0.3,-0.63 0.73,-1.16 1.28,-1.58 c 14.94,-2.47 28.89,-7.59 41.86,-15.38 c 2.54,-2.01 4.84,-4.23 6.91,-6.67 c -2.2,-2 -4.49,-3.94 -6.88,-5.8 c -11.62,-7.45 -24.72,-11.59 -37.94,-15.18 c -0.78,-0.36 -1.54,-0.77 -2.28,-1.22 c -1.41,2.29 -0.99,0.93 -3.04,0.54 c 1.06,-7.4 2.45,-14.75 4.16,-22.03 c 22.43,9.7 34.38,23.94 53.04,37.7 c 1.06,-0.4 2,-1 2.81,-1.82 c 12.62,-11.56 18.9,-30.5 19.28,-47.27 c -0.48,-8.06 -0.7,-29.45 -9.61,-32.89 c -14.28,-3.1 -26.67,-7.13 -40.2,-12.66 c 13.73,-20.28 30.79,-37.21 51.19,-50.77 c -0.48,2.18 6.89,17.99 7.38,21.73 c 3.39,8.41 1.62,23.38 13.14,25.09 c 23.36,5.87 47.04,3.58 66.64,-11.16 c 3.89,-3.74 8.72,-6.28 3.93,-11.53 c -14.84,-14.84 -25.27,-30.32 -35.35,-48.69 c 7.26,-1.8 14.61,-3.17 22.03,-4.09 Z M 154.91,284.62 c -1.71,0.99 -2.49,2.47 -2.35,4.44 c -1.55,-0.89 -2.19,-0.67 -3.33,-2.25 c -1.52,-3.65 -5.68,-3.74 -8.31,-1.21 c -1.04,-0.66 -5.29,-0.75 -6.91,-1.09 c -1.98,-1.05 -3.93,-0.99 -5.84,0.16 c -7.03,-1.77 -32.82,0.02 -34.69,10.33 c -2.67,13.82 -6.33,26.19 -12.44,38.94 c -20,-13.78 -36.84,-30.69 -50.53,-50.75 c 20.32,-8.95 41.56,-14.87 63.95,-13.92 c 15.3,-1.34 48.38,6.97 60.45,15.35 Z M 333.73,284.26 c -13.53,19.63 -30.13,36.18 -49.79,49.66 c -0.33,-0.67 -0.84,-1.16 -1.53,-1.49 c 0.31,-3.13 -9.67,-30.63 -10.97,-37.4 c -2.66,-11.31 -23.55,-10.1 -32.44,-11.04 c -2.96,-0.14 -5.94,-0.27 -8.91,-0.39 c -1.51,0.13 -3.01,0.28 -4.5,0.47 c -1.32,1.89 -1.42,2.55 -3.06,0.26 c -0.3,0.09 -0.53,0.28 -0.68,0.56 c -0.67,-0.32 -1.37,-0.43 -2.11,-0.35 c -0.72,1.07 -1.63,1.96 -2.73,2.67 c -1.15,0.12 -2.31,0.18 -3.46,0.17 c -0.66,1.98 -1.25,0.93 -2.78,1.87 c -0.31,0.33 -0.63,0.65 -0.98,0.94 c -0.12,-1.75 -0.14,-3.5 -0.06,-5.25 c 0.28,-0.58 0.67,-1.06 1.18,-1.44 c 26.43,-12.83 52.96,-16.74 82.1,-13.02 c 7.67,0.6 36.55,8.65 40.72,13.78 Z M 191.96,293.8 c 0.69,0.04 1.38,0.08 2.08,0.12 c -1.43,5.08 5.29,1.66 3.49,4.67 c -1.62,-0.85 -2.5,-0.32 -2.63,1.61 c -0.74,0.01 -2.6,-0.45 -2.82,0.59 c -0.21,0.96 -0.35,1.92 -0.43,2.89 c -1.03,-0.59 -1.87,-1.39 -2.5,-2.4 c -3.15,-2.37 -1.71,4.66 -1.87,5.84 c -0.15,0.96 1.45,0.71 1.97,0.69 c 8.31,6.25 39.27,42.87 34.76,52.09 c -6.25,1.52 -12.56,2.67 -18.95,3.44 c -4.77,-18.85 -8.88,-34.47 -21.44,-49.82 c -0.76,-0.65 -1.49,-0.61 -2.2,0.13 c -10.57,10.54 -19.41,33.94 -19.6,48.55 c 0.39,0.44 0.91,0.68 1.57,0.73 c 0.37,0.19 0.53,0.49 0.47,0.9 c -8.75,-0.98 -17.4,-2.51 -25.94,-4.61 c 8.99,-18.78 21.01,-35.28 35.82,-49.84 c -0.14,-0.44 -0.38,-0.83 -0.72,-1.16 c 1.54,-0.73 2.75,-0.03 4,-1.45 c 1.02,2.16 4.11,1.13 5.98,1.08 c 0.29,0 0.57,0 0.86,-0.01 c 0.76,0.18 1.4,-0.01 1.93,-0.56 c 0.12,-2.14 0.18,-4.29 0.18,-6.44 c -0.38,-3.17 4.31,-5.15 5.99,-7.04 Z"/></g>
+            </svg>
+        </div>
+    </div>
+
+    <div class="submenu-panel" id="submenuPanel">
+        <div class="panel-header">
+            <div class="panel-icon" id="panelIcon"><i class="fa-solid fa-glass-water"></i></div>
+            <div class="panel-title">
+                <h3 id="panelTitleAr">المشروبات الباردة</h3>
+                <span id="panelTitleEn">COLD DRINKS</span>
+            </div>
+        </div>
+        <div id="panelItems"></div>
+    </div>
+
+    <script>
+        const MENU_DATA = [
+            {
+                id: 'cold-drinks', titleAr: 'المشروبات الباردة', titleEn: 'COLD DRINKS', icon: 'fa-glass-water',
+                items: [
+                    { ar: 'إيس آتي', en: 'Ice Tea' },
+                    { ar: 'غرين إينرجي', en: 'Green Energy' },
+                    { ar: 'سبيرايت إينرجي', en: 'Spirit Energy' },
+                    { ar: 'كوسميك درينك', en: 'Cosmic Drink' },
+                    { ar: 'غراند بيروي', en: 'Grand Berry' },
+                    { ar: 'بلو أوشن', en: 'Blue Ocean' },
+                    { ar: 'فورتيكس درينك', en: 'Vortex Drink' },
+                    { ar: 'الليتشي صودا', en: 'Lychee Soda' },
+                    { ar: 'ريد مورنينغ', en: 'Red Morning' },
+                    { ar: 'موهيتو', en: 'Mojito' },
+                    { ar: 'بلو ماونتن', en: 'Blue Mountain' },
+                    { ar: 'إيس إسبيرسو', en: 'Ice Shaken Espresso' },
+                    { ar: 'ماتشا كريمي', en: 'Creamy Matcha' },
+                    { ar: 'قهوة كريمي', en: 'Creamy Coffee' },
+                    { ar: 'باشن فروت', en: 'Passion Fruit Smoothie' },
+                    { ar: 'بافاروتي البوردي', en: 'Pavarotti Energy' },
+                    { ar: 'شوكولاز باردة', en: 'Cold Chocholate' },
+                    { ar: 'إيس بستاشيو', en: 'Ice Latte Pistachio' },
+                    { ar: 'إيس تيراميسو', en: 'Ice Latte Tiramisu' },
+                    { ar: 'إيس سباركلر', en: 'Sparkler Ice Latte' }
+                ]
+            },
+            {
+                id: 'frappes-shakes', titleAr: 'الفرابيه والشيك', titleEn: 'FRAPPES SHAKES', icon: 'fa-blender',
+                items: [
+                    { ar: 'شيك سنيكيرز', en: 'Snickers Shake' },
+                    { ar: 'شيك نوفا', en: 'Nova Shake' },
+                    { ar: 'كريسباي شيك', en: 'Crispy Shake' },
+                    { ar: 'ميتيور شيك', en: 'Meteor Shake' },
+                    { ar: 'كيك شيك', en: 'Cake Shake' },
+                    { ar: 'دبي شيك', en: 'Dubai Shake' },
+                    { ar: 'المونت فرابيه', en: 'El Mont Frappe' },
+                    { ar: 'تيراميسو فرابيه', en: 'Tiramisu Frappe' },
+                    { ar: 'دبي فرابيه', en: 'Dubai Frappe' },
+                    { ar: 'كاراميل فرابيه', en: 'Caramel Frappe' },
+                    { ar: 'تانغو مانغو', en: 'Tango Mango' },
+                    { ar: 'أوريو كريمي', en: 'Oreo Creamy' },
+                    { ar: 'فرابيه', en: 'Frappe' }
+                ]
+            },
+            {
+                id: 'desserts', titleAr: 'الحلويات', titleEn: 'DESSERTS', icon: 'fa-cake-candles',
+                items: [
+                    { ar: 'حلاوة الجبن مع الآيس كريم', en: 'Halawet El-Jibn With Ice cream' },
+                    { ar: 'الكنافة بالفستق', en: 'Kunafa With Pistachio' },
+                    { ar: 'آيس كريم', en: 'Ice Cream' },
+                    { ar: 'كرات التيراميسو', en: 'Tiramisu Balls' },
+                    { ar: 'كرات دبي', en: 'Dubai Balls' },
+                    { ar: 'وافل ستيك (لوتس - فستق - شوكولا)', en: 'Waffle Stick (Lotus-Pistachio-Chocolate)' },
+                    { ar: 'تيراميسو', en: 'Tiramisu' },
+                    { ar: 'براونيز', en: 'Brownies' },
+                    { ar: 'فوندان', en: 'Fondant' },
+                    { ar: 'مخروط شوكولاب', en: 'ChocoLab Cone' },
+                    { ar: 'كوكيز', en: 'Cookies' },
+                    { ar: 'سكيليت', en: 'Skillet' },
+                    { ar: 'كرواسون لاب (لوتس - فستق - شوكولا)', en: 'Croissant Lab (Lotus-Pistachio-Chocolate)' }
+                ]
+            },
+            {
+                id: 'hot-drinks', titleAr: 'المشروبات الساخنة', titleEn: 'HOT DRINKS', icon: 'fa-mug-hot',
+                items: [
+                    { ar: 'كافيه لاتييه', en: 'Café Latte' },
+                    { ar: 'لوتس لاتييه', en: 'Lotus Spanish Latte' },
+                    { ar: 'راديانت لاتييه', en: 'Radiant Latte' },
+                    { ar: 'سبايس لاتييه', en: 'Spice Latte' },
+                    { ar: 'كافيين لاب لاتييه', en: 'CaffeineLab Latte' },
+                    { ar: 'ماتشا لاتييه', en: 'Matcha Latte' },
+                    { ar: 'إيس هاني لاتييه', en: 'Ice Honey Latte' },
+                    { ar: 'شاي ماتشا', en: 'Matcha Tea' },
+                    { ar: 'هوت شوكلت لاب', en: 'Hot chocolate Lab' },
+                    { ar: 'شوكو ميكس', en: 'Choco Mix' },
+                    { ar: 'كارميل ميكاتو', en: 'Caramel Machiato' },
+                    { ar: 'شاي الكرك', en: 'Karak Tea' },
+                    { ar: 'شاي المسالا', en: 'Masala Tea' }
+                ]
+            },
+            {
+                id: 'keto-sweets', titleAr: 'حلويات كيتو', titleEn: 'KETO SWEETS', icon: 'fa-seedling',
+                items: [
+                    { ar: 'كيك مع جوز السينامون', en: 'Cake with Cinnabon Walnut' },
+                    { ar: 'كيك الشوكولاتة كيتو', en: 'Keto Chocolate Cake' },
+                    { ar: 'كوكيز الشوفان', en: 'Oat Cookies' },
+                    { ar: 'جرانولا بالمكسرات', en: 'Granola with Nuts' }
+                ]
+            },
+            {
+                id: 'coffee-drinks', titleAr: 'مشروبات القهوة والشيشة', titleEn: 'COFFEE & SHISHA', icon: 'fa-coffee',
+                items: [
+                    { ar: 'إسبريسو', en: 'Espresso' },
+                    { ar: 'إسبريسو دوبيو', en: 'Espresso Dopio' },
+                    { ar: 'إيريش إسبريسو', en: 'Irish Espresso' },
+                    { ar: 'أوفردرايف', en: 'Overdrive' },
+                    { ar: 'كوفي لاب', en: 'Coffeelab' },
+                    { ar: 'V60', en: 'V60' },
+                    { ar: 'أمريكانو', en: 'Americano' },
+                    { ar: 'قهوة تركية', en: 'Turkish coffee' },
+                    { ar: 'معسل بجميع أنواعه', en: 'Shisha - All Flavors & Blends' }
+                ]
+            }
+        ];
+
+        let currentRotation = 0;
+        let isDragging = false;
+        let startAngle = 0;
+        let lastRandomIndex = -1;
+
+        const orbitRing = document.getElementById('orbitRing');
+        const orbitWrapper = document.getElementById('orbitWrapper');
+        const radius = 130;
+        const targetAngleDeg = 140;
+
+        function initOrbit() {
+            orbitRing.innerHTML = '';
+            const total = MENU_DATA.length;
+
+            MENU_DATA.forEach((cat, index) => {
+                const angle = (index / total) * 2 * Math.PI;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+
+                const item = document.createElement('div');
+                item.className = `orbit-item ${index === 0 ? 'active' : ''}`;
+                item.style.transform = `translate(${x}px, ${y}px)`;
+                item.innerHTML = `<i class="fa-solid ${cat.icon}"></i><span>${cat.titleAr}</span>`;
+                
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectCategory(index);
+                });
+
+                orbitRing.appendChild(item);
+            });
+
+            updatePanel(0);
+        }
+
+        function selectCategory(index) {
+            const items = orbitRing.querySelectorAll('.orbit-item');
+            items.forEach((el, i) => {
+                if(i === index) el.classList.add('active');
+                else el.classList.remove('active');
+            });
+            updatePanel(index);
+        }
+
+        function updatePanel(index) {
+            const cat = MENU_DATA[index];
+            document.getElementById('panelIcon').innerHTML = `<i class="fa-solid ${cat.icon}"></i>`;
+            document.getElementById('panelTitleAr').innerText = cat.titleAr;
+            document.getElementById('panelTitleEn').innerText = cat.titleEn;
+
+            const container = document.getElementById('panelItems');
+            container.innerHTML = cat.items.map(d => `
+                <div class="dish-row">
+                    <div class="dish-info">
+                        <h4>${d.ar}</h4>
+                        <p>${d.en}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        orbitWrapper.addEventListener('pointerdown', (e) => {
+            isDragging = true;
+            const rect = orbitWrapper.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            startAngle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI) - currentRotation;
+        });
+
+        window.addEventListener('pointermove', (e) => {
+            if (!isDragging) return;
+            const rect = orbitWrapper.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
+            currentRotation = angle - startAngle;
+            orbitRing.style.transform = `rotate(${currentRotation}deg)`;
+
+            const total = MENU_DATA.length;
+            const items = orbitRing.querySelectorAll('.orbit-item');
+            items.forEach((el, i) => {
+                const angle = (i / total) * 2 * Math.PI;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                el.style.transform = `translate(${x}px, ${y}px) rotate(${-currentRotation}deg)`;
+            });
+        });
+
+        window.addEventListener('pointerup', () => {
+            isDragging = false;
+        });
+
+        function spinLuckyMenu() {
+            const total = MENU_DATA.length;
+            let randomIndex;
+            
+            do {
+                randomIndex = Math.floor(Math.random() * total);
+            } while (randomIndex === lastRandomIndex && total > 1);
+            
+            lastRandomIndex = randomIndex;
+
+            orbitRing.classList.add('spinning');
+            const items = orbitRing.querySelectorAll('.orbit-item');
+            items.forEach(el => el.classList.remove('active'));
+
+            const anglePerItem = 360 / total;
+            const itemBaseAngle = randomIndex * anglePerItem;
+            
+            const spins = 4 * 360;
+            const targetMod = (targetAngleDeg - itemBaseAngle) % 360;
+            const currentMod = currentRotation % 360;
+            
+            let diff = targetMod - currentMod;
+            if (diff < 0) diff += 360;
+
+            currentRotation += spins + diff;
+
+            orbitRing.style.transform = `rotate(${currentRotation}deg)`;
+
+            items.forEach((el, i) => {
+                const angle = (i / total) * 2 * Math.PI;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                el.style.transform = `translate(${x}px, ${y}px) rotate(${-currentRotation}deg)`;
+            });
+
+            setTimeout(() => {
+                orbitRing.classList.remove('spinning');
+                selectCategory(randomIndex);
+            }, 1200);
+        }
+
+        window.addEventListener('load', initOrbit);
+    </script>
+</body>
+</html>
